@@ -5,7 +5,7 @@ Week 1: Importing Datasets
 
 - Created on: Sep 30 2023
 - Created by: gojun077@gmail.com
-- Last Updated: Sep 30 2023
+- Last Updated: Dec 3 2023
 
 # Topics
 
@@ -53,6 +53,9 @@ pip3 install pandas matplotlib scipy seaborn tqdm
 You can check if a Python package has been installed with `pip`
 using the command `pip show <pkgName>`.
 
+
+### Load data into `pandas` Data Frame
+
 First let's open the CSV file named `imports-85.data`, assuming you
 launched `ipython` while you are already in the same folder where you
 downloaded the file:
@@ -84,7 +87,11 @@ This should return:
 [5 rows x 26 columns]
 ```
 
+
 To view the bottom 10 rows, you would use `df.tail(10)`.
+
+
+### Add field names to Data Frame
 
 Currently the fields are labeled from 0 to 25. The headers are not included
 in the data file. We can find the field names from `import-85.names`,
@@ -127,6 +134,11 @@ This should return the following:
 [10 rows x 26 columns]
 ```
 
+You can also use `df.columns` to list the name of each column.
+
+
+### Filter out missing values from Data Frame
+
 The `?` symbols above denote missing values. In `numpy` there is a *Not a
 Number* type object denoted by `np.NaN`. Replace all occurrences of `?`
 with `np.NaN` using `df.replace('?', np.NaN)`, and drop missing
@@ -167,6 +179,7 @@ data for the field `price` (the last field) have been deleted (i.e. row
 [20 rows x 26 columns]
 ```
 
+
 To find the name of columns in the dataframe, you can use the built-in
 method `.columns`, which does not take any arguments. For example,
 `df.columns` will return the following:
@@ -180,6 +193,8 @@ Index(['symboling', 'normalized-losses', 'make', 'fuel-type', 'aspiration',
        'highway-mpg', 'price'],
       dtype='object')
 ```
+
+### Save Data Frame to File
 
 You can save your dataframe to a CSV file using `DataFrameName.to_csv()`.
 Above we imported raw CSV data without any headers from `imports-85.data`
@@ -196,9 +211,15 @@ supports csv, json, excel, hdf, and sql OOTB.
 | hdf         | `pd.read_hdf()`   | `df.to_hdf()`   |
 | sql         | `pd.read_sql()`   | `df.to_sql()`   |
 
+
+### Check data types in `pandas` Data Frame
+
 To examine the data types for data stored in a Pandas dataframe, use
 `df.dtypes`. The supported types are `object`, `float`, `int`, `bool`, and
 `datetime64`.
+
+
+### Get Statistical Summary of Data Frame
 
 To get a statistical summary of each column, use `df.describe()`. For
 our current dataframe, we get the following:
@@ -218,7 +239,7 @@ max      3.000000  120.900000  208.100000   72.000000  ...   326.000000         
 ```
 
 You can see that the summary stats are only shown for 10 cols, although we
-have 26 cols total. By default, only stats for numeric type columns are
+have 26 cols total. By default, only stats for *numeric* type columns are
 shown. If you want to see the stats for all columns, regardless of type,
 use `df.describe(include = 'all')`
 
@@ -239,7 +260,7 @@ max       3.000000               NaN     NaN       NaN  ...      NaN   49.000000
 [11 rows x 26 columns]
 ```
 
-You can seelct specific columns in a dataframe by indicating the name of
+You can select specific columns in a dataframe by indicating the name of
 each column, i.e., `dataframe[[' column 1 ',column 2', 'column 3']]`.
 You can then apply dataframe methods on just the specified columns.
 
@@ -304,3 +325,5 @@ dtypes: float64(5), int64(5), object(16)
 memory usage: 42.4+ KB
 ```
 
+Note that `df.info()` does not provide a statistical summary like
+`df.describe()`!
